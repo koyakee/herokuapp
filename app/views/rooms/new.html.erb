@@ -1,0 +1,37 @@
+<h3>新規登録</h3>
+
+<%= form_with model: @room do |f| %>
+  <table>
+    <tr>
+      <th><%= f.label :facilityName ,"施設名" %></th>
+      <td><%= f.text_field :facilityName %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :facilityDetails ,"施設詳細" %></th>
+      <td><%= f.text_area :facilityDetails %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :facilityFee ,"料金" %></th>
+      <td><%= f.text_field :facilityFee %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :facilityAddress ,"住所" %></th>
+      <td><%= f.text_field :facilityAddress %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :facilityImages ,"施設画像" %></th>
+      <td><%= f.file_field :facilityImages, accept: "image/*" %></td>
+    </tr>
+  </table>
+
+  <div>
+    <ul>
+      <li><%= f.submit "保存" %></li>
+      <li><%= link_to "キャンセル", :back %></li>
+    </ul>
+  </div>
+<% end %>

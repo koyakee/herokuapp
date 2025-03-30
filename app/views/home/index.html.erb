@@ -1,10 +1,24 @@
+<%= render "shared/header" %>
+
 <div class="FirstView">
   <div class="Container">
-    <h2>Potepan Shareで<br>まだ体験したことのない<br>旅をしよう</h2>
+    <h2 class="FirstViewTitle">Potepan Shareで<br>まだ体験したことのない<br>旅をしよう</h2>
     <div class="SearchForm">
-      
+      <form class="SearchFormContainer" action="https://rails-02-sample.herokuapp.com/rooms">
+        <input type="text" class="SearchInputArea" placeholder="エリア名を入力">
+        <input type="submit" class="SearchButton" value="検索">
+      </form>
     </div>
   </div>
 </div>
 <div class="AreaWrapper">
+  <div class="AreaContainer">
+    <h2>おすすめのエリア</h2>
+    <div class="RecommendAreas">
+      <a href="https://rails-02-sample.herokuapp.com/rooms?area=%E6%9D%B1%E4%BA%AC">東京</a>
+      <a href="https://rails-02-sample.herokuapp.com/rooms?area=%E5%A4%A7%E9%98%AA">大阪</a>
+      <a href="https://rails-02-sample.herokuapp.com/rooms?area=%E4%BA%AC%E9%83%BD">京都</a>
+      <a href="https://rails-02-sample.herokuapp.com/rooms?area=%E6%9C%AD%E5%B9%8C">札幌</a>
+    </div>
+  </div>
 </div>

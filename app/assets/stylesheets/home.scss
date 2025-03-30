@@ -1,3 +1,52 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+.FirstView {
+  background-image: url(https://rails-02-sample.herokuapp.com/assets/home/cover-lg.jpg);
+  background-size: cover;
+  padding-top: 80px;
+  height: 750px;
+  width: 100%;
+}
+
+.Container {
+  max-width: 1440px;
+  padding: 0 30px;
+}
+
+.FirstViewTitle {
+  color: #fff;
+  font-size: 84px;
+  text-align: center;
+  line-height: 100px;
+}
+
+.SearchForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  width: 704px;
+}
+
+.SearchFormContainer {
+  width: 704px;
+}
+
+.SearchInputArea {
+  border-radius: 5px;
+  border: 1px #fff;
+  width: 100%;
+  height: 58px;
+  margin-bottom: 16px;
+
+}
+
+.SearchButton {
+  background-color: orange;
+  border-radius: 5px;
+  border: 1px orange;
+  color: #fff;
+  width: 100%;
+  height: 58px;
+}
