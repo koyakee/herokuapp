@@ -45,13 +45,17 @@ ActiveRecord::Schema.define(version: 2025_03_25_075118) do
     t.datetime "checkOutDate"
     t.integer "numberOfPeople"
     t.integer "user_id"
+    t.integer "room_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "rooms", force: :cascade do |t|
     t.string "area"
-    t.string "freeWord"
+    t.string "facility_name"
+    t.string "facility_details"
+    t.string "facility_address"
+    t.integer "facility_fee"
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -61,7 +65,7 @@ ActiveRecord::Schema.define(version: 2025_03_25_075118) do
     t.string "name"
     t.string "email"
     t.string "password"
-    t.string "confirmationPassword"
+    t.string "password_confirmation"
     t.string "introduce"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

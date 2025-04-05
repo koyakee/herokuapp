@@ -1,0 +1,41 @@
+<h3>予約内容の確認</h3>
+
+<% if flash[:failure] %>
+  <p><%= flash[:failure] %></p>
+<% end %>
+
+<table>
+  <tr>
+    <th>チェックイン</th>
+    <td><%= @reservation.checkInDate %></td>
+  </tr>
+  <tr>
+    <th>チェックアウト</th>
+    <td><%= @reservation.checkOutDate %></td>
+  </tr>
+  <tr>
+    <th>日数</th>
+    <td><%= (@reservation.checkOutDate - @reservation.checkInDate).to_i %>日</td>
+  </tr>
+  <tr>
+    <th>人数</th>
+    <td><%= @reservation.numberOfPeople %>人</td>
+  </tr>
+  <tr>
+    <th>お支払い金額</th>
+    <td>¥<%= (@reservation.numberOfPeople.to_i * @room.facility_fee.to_i * (@reservation.checkOutDate - @reservation.checkInDate).to_i) %></td>
+  </tr>
+</table>
+
+<%= form_with model: @reservation, url: reservations_path, method: :post do |f| %>
+  <%= f.hidden_field :checkInDate, value: @reservation.checkInDate %>
+  <%= f.hidden_field :checkOutDate, value: @reservation.checkOutDate %>
+  <%= f.hidden_field :numberOfPeople, value: @reservation.numberOfPeople %>
+  <%= f.hidden_field :room_id, value: @reservation.room_id %>
+
+  <div>
+    <%= f.submit "確定" %>
+  </div>
+<% end %>
+
+<%= link_to "キャンセル", rooms_path %>

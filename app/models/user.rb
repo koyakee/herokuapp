@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_one_attached :user_icon
-  has_many :rooms
-  has_many :reservations
+  has_many :rooms, dependent: :destroy
+  has_many :reservations, dependent: :destroy
   validates :name, presence: true
   validates :email, presence: true
   validates :password, confirmation: true

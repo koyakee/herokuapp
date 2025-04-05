@@ -1,2 +1,39 @@
-<h1>Reservations#index</h1>
-<p>Find me in app/views/reservations/index.html.erb</p>
+<%= render "shared/header" %>
+
+<% if flash[:success] %>
+  <p class="notice"><%= flash[:success] %></p>
+<% end %>
+
+<h3>予約済み一覧</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>画像</th>
+      <th>施設名</th>
+      <th>紹介文</th>
+      <th>合計料金</th>
+      <th>チェックイン</th>
+      <th>チェックアウト</th>
+      <th>予約確定日時</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reservations.each do |reservation| %>
+      <tr>
+        <td><%= reservation.room.facility_images %></td>
+        <td><%= reservation.room.facility_name %></td>
+        <td><%= reservation.room.facility_details %></td>
+        <td><%= number_to_currency(reservation.room.facility_fee * reservation.numberOfPeople, unit: "¥") %></td>
+        <td><%= reservation.checkInDate %></td>
+        <td><%= reservation.checkOutDate %></td>
+        <td><%= reservation.created_at %></td>
+        <td><%= link_to "再予約", edit_reservation_path(reservation) %></td>
+        <td><%= link_to "予約を削除", reservation, method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+

@@ -1,10 +1,26 @@
-<p><span><%= @rooms.count %></span>件見つかりました</p>
+<%= render "shared/header" %>
 
-<%= @rooms.each do |room| %>
-  <tr>
-    <td><%= room.facilityImages %></td>
-    <td><%= room.facilityName %></td>
-    <td><%= room.facilityAddress %></td>
-    <td><%= room.facilityDetails %></td>
-  </tr>
+<% if flash[:success] %>
+  <p class="notice"><%= flash[:success] %></p>
 <% end %>
+
+<%= form_with url: rooms_path, method: :get, local: true do |form| %>
+  <div>
+    <%= form.text_field :facility_address, placeholder: "エリア名を入力" %>
+    <%= form.text_field :search_keyword, placeholder: "キーワード名を入力" %>
+    <%= form.submit "検索" %>
+  </div>
+<% end %>
+
+
+<h2><span><%= @rooms.count %></span>件見つかりました</h2>
+<tbody>
+  <%= @rooms.each do |room| %>
+    <tr>
+      <td><%= room.facility_images %></td>
+      <td><%= room.facility_name %></td>
+      <td><%= room.facility_address %></td>
+      <td><%= room.facility_details %></td>
+    </tr>
+  <% end %>
+</tbody>
