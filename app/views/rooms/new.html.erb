@@ -1,6 +1,11 @@
 <%= render "shared/header" %>
 
+<% if flash[:failure] %>
+  <p><%= flash[:failure] %></p>
+<% end %>
+
 <h3>新規登録</h3>
+<p>※料金は1円以上になるようにしてください</p>
 
 <%= form_with model: @room do |f| %>
   <table>

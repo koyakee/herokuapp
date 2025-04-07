@@ -5,7 +5,7 @@
 <table>
   <thead>
     <tr>
-      <th>画像</th>
+      <th></th>
       <th>施設名</th>
       <th>紹介文</th>
       <th>料金</th>
@@ -18,11 +18,17 @@
   <tbody>
     <% @rooms.each do |room| %>
       <tr>
-        <td><%= room.facility_images %></td>
+        <td>
+          <% if room.facility_images.attached? %>
+            <%= image_tag room.facility_images, size: "100x100" %>
+          <% else %>
+            画像なし
+          <% end %>
+        </td>
         <td><%= link_to room.facility_name, room_path(room) %></td>
         <td><%= room.facility_details %></td>
-        <td><%= room.facility_fee %></td>
-        <td><%= room.created_at.to_s(:datetime_jp) %></td>
+        <td>¥<%= room.facility_fee %></td>
+        <td><%= room.created_at.strftime("%Y/%m/%d") %></td>
         <td><%= link_to "施設を編集", edit_room_path(room) %></td>
         <td><%= link_to "施設を削除", room, method: :delete %></td>
       </tr>

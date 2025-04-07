@@ -1,7 +1,7 @@
 <%= render "shared/header" %>
 
 <% if flash[:success] %>
-  <p class="notice"><%= flash[:success] %></p>
+  <p><%= flash[:success] %></p>
 <% end %>
 
 <%= form_with url: rooms_path, method: :get, local: true do |form| %>
@@ -14,13 +14,22 @@
 
 
 <h2><span><%= @rooms.count %></span>件見つかりました</h2>
-<tbody>
-  <%= @rooms.each do |room| %>
-    <tr>
-      <td><%= room.facility_images %></td>
-      <td><%= room.facility_name %></td>
-      <td><%= room.facility_address %></td>
-      <td><%= room.facility_details %></td>
-    </tr>
-  <% end %>
-</tbody>
+<table>  
+  <tbody>
+    <% @rooms.each do |room| %>
+      <tr>
+        <td>
+          <% if room.facility_images.attached? %>
+            <%= image_tag room.facility_images, size: "100x100" %>
+          <% else %>
+            画像なし
+          <% end %>
+        </td>
+        <td><%= link_to room.facility_name, room_path(room) %></td>
+        <td><%= room.facility_address %></td>
+        <td><%= room.facility_details %></td>
+        <td><%= room.facility_fee %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

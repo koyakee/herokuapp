@@ -7,7 +7,8 @@ class RoomsController < ApplicationController
     end
     
     if params[:search_keyword].present?
-      @rooms = @rooms.where("facility_name LIKE ? OR facility_address LIKE ?", "%#{params[:search_keyword]}%", "%#{params[:search_keyword]}%")
+      keyword = "%#{params[:search_keyword]}%"
+      @rooms = @rooms.where("facility_name LIKE ? OR facility_address LIKE ? OR facility_details LIKE ?", keyword, keyword, keyword)
     end
   end
   
@@ -21,6 +22,7 @@ class RoomsController < ApplicationController
       flash[:success] = "施設情報が登録されました"
       redirect_to room_path(@room)
     else
+      flash[:failure] = "入力されていない項目があります。または数値が不正です。"
       render "new"
     end
   end

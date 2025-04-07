@@ -1,13 +1,13 @@
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
-  
+
   def index
-    @reservations = current_user.reservations
+    @reservations = current_user.reservations.includes(:room)
   end
   
   def confirm
-    @reservation = current_user.reservations.build(reservation_params)
-    @room = Room.find_by(id: @reservation.room_id)
+    @reservation = current_user.reservations.build(params.require(:reservation).permit(:checkInDate, :checkOutDate, :numberOfPeople, :room_id))
+    @room = @reservation.room
     
     if @reservation.valid?
       render :confirm
@@ -18,17 +18,36 @@ class ReservationsController < ApplicationController
   end
   
   def create
-    @reservation = current_user.reservations.build(reservation_params)
+    @reservation = Reservation.new(params.require(:reservation).permit(:checkInDate, :checkOutDate, :numberOfPeople, :room_id))
+    @reservation.user = current_user
+    @room = Room.find_by(id: @reservation.room_id)
+    
     if @reservation.save
-      render :confirm
+      flash[:success] = "予約が完了しました！"
+      redirect_to reservations_path
     else
-      flash[:failure] = "予約情報が不足しています"
-      render
+      flash[:failure] = "予約に失敗しました"
+      render "rooms/show"
     end
   end
   
+  def show
+    @reservation = Reservation.find(params[:id])
+  end
+  
+  def edit
+    @room = @reservation.room
+  end
+  
   def update
-    
+    if @reservation.update(params.require(:reservation).permit(:checkInDate, :checkOutDate, :numberOfPeople, :room_id))
+      flash[:success] = "予約を更新しました"
+      redirect_to reservations_path
+    else
+      flash[:failure] = "予約情報が不足しています"
+      render :edit
+    end
+  end
   
   def destroy
     @reservation.destroy
@@ -38,12 +57,7 @@ class ReservationsController < ApplicationController
   
   private
   
-    def set_reservation
-      @reservation = Reservation.find(params[:id])
-    end
-  
-    def reservation_params
-      params.require(:reservation).permit(:checkInDate, :checkOutDate, :numberOfPeople, :room_id)
-    end
+  def set_reservation
+    @reservation = Reservation.find(params[:id])
   end
 end

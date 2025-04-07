@@ -1,3 +1,5 @@
+<%= render "shared/header" %>
+
 <h3>予約内容の確認</h3>
 
 <% if flash[:failure] %>
@@ -7,15 +9,15 @@
 <table>
   <tr>
     <th>チェックイン</th>
-    <td><%= @reservation.checkInDate %></td>
+    <td><%= @reservation.checkInDate.strftime("%Y/%m/%d") %></td>
   </tr>
   <tr>
     <th>チェックアウト</th>
-    <td><%= @reservation.checkOutDate %></td>
+    <td><%= @reservation.checkOutDate.strftime("%Y/%m/%d")  %></td>
   </tr>
   <tr>
     <th>日数</th>
-    <td><%= (@reservation.checkOutDate - @reservation.checkInDate).to_i %>日</td>
+    <td><%= ((@reservation.checkOutDate - @reservation.checkInDate) / 1.day).to_i %>日</td>
   </tr>
   <tr>
     <th>人数</th>
@@ -23,11 +25,22 @@
   </tr>
   <tr>
     <th>お支払い金額</th>
-    <td>¥<%= (@reservation.numberOfPeople.to_i * @room.facility_fee.to_i * (@reservation.checkOutDate - @reservation.checkInDate).to_i) %></td>
+    <td>¥<%= (@reservation.numberOfPeople.to_i * @room.facility_fee.to_i * ((@reservation.checkOutDate - @reservation.checkInDate) / 1.day).to_i) %></td>
   </tr>
 </table>
 
-<%= form_with model: @reservation, url: reservations_path, method: :post do |f| %>
+<% if @reservation.errors.any? %>
+  <div>
+    <h4>エラーがあります</h4>
+    <ul>
+      <% @reservation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @reservation, url: reservations_path, method: :post, local: true do |f| %>
   <%= f.hidden_field :checkInDate, value: @reservation.checkInDate %>
   <%= f.hidden_field :checkOutDate, value: @reservation.checkOutDate %>
   <%= f.hidden_field :numberOfPeople, value: @reservation.numberOfPeople %>

@@ -1,0 +1,36 @@
+<%= render "shared/header" %>
+
+<h3>再予約する</h3>
+
+<table>
+<tr>
+  <td><%= @room.facility_images %></td>
+  <td><%= @room.facility_name %></td>
+  <td><%= @room.facility_address %></td>
+  <td><%= @room.facility_details %></td>
+  <td><%= @room.facility_fee %></td>
+</tr>
+</table>
+
+<%= form_with model: @reservation, url: confirm_reservations_path, method: :post do |f| %>
+  <table>
+    <tr>
+      <th><%= f.label :checkInDate, "チェックイン" %></th>
+      <td><%= f.date_field :checkInDate %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :checkOutDate, "チェックアウト" %></th>
+      <td><%= f.date_field :checkOutDate %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :numberOfPeople, "人数" %></th>
+      <td><%= f.text_area :numberOfPeople %></td>
+    </tr>
+  </table>
+  <%= f.hidden_field :room_id, value: @room.id %>
+  <div>
+    <ul>
+      <li><%= f.submit "再予約する"%></li>
+    </ul>
+  </div>
+<% end %>

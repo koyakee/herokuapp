@@ -1,7 +1,7 @@
 <%= render "shared/header" %>
 
 <% if flash[:success] %>
-  <p class="notice"><%= flash[:success] %></p>
+  <p><%= flash[:success] %></p>
 <% end %>
 
 <h3>予約済み一覧</h3>
@@ -9,7 +9,7 @@
 <table>
   <thead>
     <tr>
-      <th>画像</th>
+      <th></th>
       <th>施設名</th>
       <th>紹介文</th>
       <th>合計料金</th>
@@ -24,13 +24,19 @@
   <tbody>
     <% @reservations.each do |reservation| %>
       <tr>
-        <td><%= reservation.room.facility_images %></td>
+        <td>
+          <% if reservation.room.facility_images.attached? %>
+            <%= image_tag reservation.room.facility_images, size: "100x100" %>
+          <% else %>
+            画像なし
+          <% end %>
+        </td>
         <td><%= reservation.room.facility_name %></td>
         <td><%= reservation.room.facility_details %></td>
-        <td><%= number_to_currency(reservation.room.facility_fee * reservation.numberOfPeople, unit: "¥") %></td>
-        <td><%= reservation.checkInDate %></td>
-        <td><%= reservation.checkOutDate %></td>
-        <td><%= reservation.created_at %></td>
+        <td>¥<%= (reservation.numberOfPeople.to_i * reservation.room.facility_fee.to_i * ((reservation.checkOutDate - reservation.checkInDate) / 1.day).to_i) %></td>
+        <td><%= reservation.checkInDate.strftime("%Y/%m/%d") %></td>
+        <td><%= reservation.checkOutDate.strftime("%Y/%m/%d") %></td>
+        <td><%= reservation.created_at.strftime("%Y/%m/%d %H:%M") %></td>
         <td><%= link_to "再予約", edit_reservation_path(reservation) %></td>
         <td><%= link_to "予約を削除", reservation, method: :delete %></td>
       </tr>
