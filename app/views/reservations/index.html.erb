@@ -28,7 +28,7 @@
           <% if reservation.room.facility_images.attached? %>
             <%= image_tag reservation.room.facility_images, size: "100x100" %>
           <% else %>
-            画像なし
+            <%= image_tag "https://rails-02-sample.herokuapp.com/assets/room/default-image-4e0ac6b8d01335b5b22fe6586af13644ae51dddb6aeabf35b9174e80f13cd09d.png", size: "100x100" %>
           <% end %>
         </td>
         <td><%= reservation.room.facility_name %></td>
