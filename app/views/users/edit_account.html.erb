@@ -1,0 +1,31 @@
+<%= render "shared/header" %>
+
+<h3>設定</h3>
+<ul>
+  <li>アカウント</li>
+</ul>
+
+<ul>
+  <li><%= link_to "アカウント", users_account_path %></li>
+  <li><%= link_to "プロフィール", users_profile_path %></li>
+</ul>
+
+<%= form_with model: @user, url: users_account_path, method: :patch do |f| %>
+  <table>
+    <tr>
+      <th><%= f.label :email ,"メールアドレス" %></th>
+      <td><%= f.text_field :email %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :password ,"パスワード" %></th>
+      <td><%= f.text_field :password %></td>
+    </tr>
+  </table>
+
+  <div>
+    <ul>
+      <li><%= f.submit "保存" %></li>
+      <li><%= link_to "キャンセル", :back %></li>
+    </ul>
+  </div>
+<% end %>

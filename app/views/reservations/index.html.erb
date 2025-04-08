@@ -1,0 +1,45 @@
+<%= render "shared/header" %>
+
+<% if flash[:success] %>
+  <p><%= flash[:success] %></p>
+<% end %>
+
+<h3>予約済み一覧</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>施設名</th>
+      <th>紹介文</th>
+      <th>合計料金</th>
+      <th>チェックイン</th>
+      <th>チェックアウト</th>
+      <th>予約確定日時</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reservations.each do |reservation| %>
+      <tr>
+        <td>
+          <% if reservation.room.facility_images.attached? %>
+            <%= image_tag reservation.room.facility_images, size: "100x100" %>
+          <% else %>
+            <%= image_tag "https://rails-02-sample.herokuapp.com/assets/room/default-image-4e0ac6b8d01335b5b22fe6586af13644ae51dddb6aeabf35b9174e80f13cd09d.png", size: "100x100" %>
+          <% end %>
+        </td>
+        <td><%= reservation.room.facility_name %></td>
+        <td><%= reservation.room.facility_details %></td>
+        <td>¥<%= (reservation.numberOfPeople.to_i * reservation.room.facility_fee.to_i * ((reservation.checkOutDate - reservation.checkInDate) / 1.day).to_i) %></td>
+        <td><%= reservation.checkInDate.strftime("%Y/%m/%d") %></td>
+        <td><%= reservation.checkOutDate.strftime("%Y/%m/%d") %></td>
+        <td><%= reservation.created_at.strftime("%Y/%m/%d %H:%M") %></td>
+        <td><%= link_to "再予約", edit_reservation_path(reservation) %></td>
+        <td><%= link_to "予約を削除", reservation, method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+

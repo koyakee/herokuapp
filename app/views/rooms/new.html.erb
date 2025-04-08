@@ -1,0 +1,44 @@
+<%= render "shared/header" %>
+
+<% if flash[:failure] %>
+  <p><%= flash[:failure] %></p>
+<% end %>
+
+<h3>新規登録</h3>
+<p>※料金は1円以上になるようにしてください</p>
+
+<%= form_with model: @room do |f| %>
+  <table>
+    <tr>
+      <th><%= f.label :facility_name ,"施設名" %></th>
+      <td><%= f.text_field :facility_name %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :facility_details ,"施設詳細" %></th>
+      <td><%= f.text_area :facility_details %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :facility_fee ,"料金" %></th>
+      <td><%= f.text_field :facility_fee %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :facility_address ,"住所" %></th>
+      <td><%= f.text_field :facility_address %></td>
+    </tr>
+
+    <tr>
+      <th><%= f.label :facility_images ,"施設画像" %></th>
+      <td><%= f.file_field :facility_images, accept: "image/*" %></td>
+    </tr>
+  </table>
+
+  <div>
+    <ul>
+      <li><%= f.submit "保存" %></li>
+      <li><%= link_to "キャンセル", :back %></li>
+    </ul>
+  </div>
+<% end %>

@@ -1,0 +1,54 @@
+<%= render "shared/header" %>
+
+<h3>予約内容の確認</h3>
+
+<% if flash[:failure] %>
+  <p><%= flash[:failure] %></p>
+<% end %>
+
+<table>
+  <tr>
+    <th>チェックイン日</th>
+    <td><%= @reservation.checkInDate.strftime("%Y/%m/%d") %></td>
+  </tr>
+  <tr>
+    <th>チェックアウト日</th>
+    <td><%= @reservation.checkOutDate.strftime("%Y/%m/%d")  %></td>
+  </tr>
+  <tr>
+    <th>宿泊日数</th>
+    <td><%= ((@reservation.checkOutDate - @reservation.checkInDate) / 1.day).to_i %>日</td>
+  </tr>
+  <tr>
+    <th>人数</th>
+    <td><%= @reservation.numberOfPeople %>人</td>
+  </tr>
+  <tr>
+    <th>支払い金額</th>
+    <td>¥<%= (@reservation.numberOfPeople.to_i * @room.facility_fee.to_i * ((@reservation.checkOutDate - @reservation.checkInDate) / 1.day).to_i) %></td>
+  </tr>
+</table>
+
+<% if @reservation.errors.any? %>
+  <div>
+    <h4>エラーがあります</h4>
+    <ul>
+      <% @reservation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @reservation, url: reservations_path, method: :post, local: true do |f| %>
+  <%= f.hidden_field :checkInDate, value: @reservation.checkInDate %>
+  <%= f.hidden_field :checkOutDate, value: @reservation.checkOutDate %>
+  <%= f.hidden_field :numberOfPeople, value: @reservation.numberOfPeople %>
+  <%= f.hidden_field :room_id, value: @reservation.room_id %>
+
+  <div>
+    <%= f.submit "確定" %>
+  </div>
+<% end %>
+
+<%= link_to "キャンセル", rooms_path %>
